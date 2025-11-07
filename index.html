@@ -94,6 +94,7 @@
             id="answerInput"
             inputmode="numeric"
             pattern="\d*"
+            autofocus
             class="w-full p-4 text-2xl text-center border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition duration-200"
             autocomplete="off"
           />
@@ -206,9 +207,7 @@
         answerInput.value = "";
         answerInput.disabled = false;
 
-        // Clear and hide messages
-        successMessage.textContent = "";
-        successMessage.style.display = "none";
+        // Clear error message (success message clears itself after timeout)
         errorMessage.textContent = "";
         errorMessage.style.display = "none";
 
@@ -222,15 +221,11 @@
 
         problemDisplay.textContent = `${currentX} x ${currentY}`;
 
-        // Update button state and focus the input
+        // Update button state
         toggleButtonState();
 
-        try {
-          answerInput.focus();
-        } catch (e) {
-          // This can fail on some mobile browsers without direct user action
-          console.warn("Autofocus failed.", e);
-        }
+        // Try to focus input (will work on initial load with autofocus)
+        answerInput.focus();
       }
 
       /**
@@ -276,8 +271,11 @@
             );
           }
 
-          // Generate new problem after a short delay
-          setTimeout(generateProblem, 1000);
+          // Update streak display immediately
+          streakDisplay.textContent = `Putki: ${streak}`;
+
+          // Generate new problem immediately
+          generateProblem();
         } else {
           // Incorrect answer
           // streak = 0; // <-- REMOVED from here
