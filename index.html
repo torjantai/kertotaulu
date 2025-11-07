@@ -1,29 +1,46 @@
 <!DOCTYPE html>
 <html lang="fi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kertolaskupeli</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* 'Tada' animation */
-        @keyframes tada {
-            0% { transform: scale(1); }
-            10%, 20% { transform: scale(0.9) rotate(-3deg); }
-            30%, 50%, 70%, 90% { transform: scale(1.1) rotate(3deg); }
-            40%, 60%, 80% { transform: scale(1.1) rotate(-3deg); }
-            100% { transform: scale(1) rotate(0); }
+      /* 'Tada' animation */
+      @keyframes tada {
+        0% {
+          transform: scale(1);
         }
-        .animate-tada {
-            animation: tada 1s ease-in-out;
+        10%,
+        20% {
+          transform: scale(0.9) rotate(-3deg);
         }
+        30%,
+        50%,
+        70%,
+        90% {
+          transform: scale(1.1) rotate(3deg);
+        }
+        40%,
+        60%,
+        80% {
+          transform: scale(1.1) rotate(-3deg);
+        }
+        100% {
+          transform: scale(1) rotate(0);
+        }
+      }
+      .animate-tada {
+        animation: tada 1s ease-in-out;
+      }
     </style>
-</head>
-<body class="bg-gray-100 flex flex-col items-center">
-
-    <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 text-center mt-8 sm:mt-12 mb-6">
-        Kertolaskupeli
+  </head>
+  <body class="bg-gray-100 flex flex-col items-center">
+    <h1
+      class="text-3xl sm:text-4xl font-bold text-gray-800 text-center mt-8 sm:mt-12 mb-6"
+    >
+      Kertolaskupeli
     </h1>
 
     <!-- 
@@ -35,263 +52,275 @@
       - sm:mt-16: Top margin on sm (desktop) screens only, not mobile
     -->
     <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg w-full max-w-sm mx-4">
-        
-        <div class="text-center mb-6">
-            <p id="streakDisplay" class="text-lg text-blue-600 font-medium">Putki: 0</p>
-            <p id="recordDisplay" class="text-sm text-gray-500 font-medium mt-1">Ennätys: 0</p>
-        </div>
+      <div class="text-center mb-6">
+        <p id="streakDisplay" class="text-lg text-blue-600 font-medium">
+          Putki: 0
+        </p>
+        <p id="recordDisplay" class="text-sm text-gray-500 font-medium mt-1">
+          Ennätys: 0
+        </p>
+      </div>
 
-        <div class="mb-6">
-            <p id="problemDisplay" class="text-4xl sm:text-5xl font-bold text-center text-gray-900">
-                5 x 10
-            </p>
-            <p id="messageDisplay" class="text-lg text-center font-medium mt-3 h-8">
-                &nbsp; <!-- Placeholder to maintain height -->
-            </p>
-        </div>
+      <div class="mb-6">
+        <p
+          id="problemDisplay"
+          class="text-4xl sm:text-5xl font-bold text-center text-gray-900"
+        >
+          5 x 10
+        </p>
+        <p id="messageDisplay" class="text-lg text-center font-medium mt-3 h-8">
+          &nbsp;
+          <!-- Placeholder to maintain height -->
+        </p>
+      </div>
 
-        <form id="answerForm" class="space-y-4">
-            <div>
-                <label for="answerInput" class="sr-only">Vastaus</label>
-                <!-- 
+      <form id="answerForm" class="space-y-4">
+        <div>
+          <label for="answerInput" class="sr-only">Vastaus</label>
+          <!-- 
                   pattern="\d*" and inputmode="numeric" help mobile users
                   get the numeric keypad.
                 -->
-                <input 
-                    type="text" 
-                    id="answerInput" 
-                    inputmode="numeric"
-                    pattern="\d*"
-                    class="w-full p-4 text-2xl text-center border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition duration-200"
-                    autocomplete="off"
-                >
-            </div>
-            <button 
-                type="submit" 
-                id="submitButton" 
-                class="w-full py-3 px-6 text-lg font-semibold text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition duration-200 disabled:bg-gray-400 disabled:opacity-70 disabled:cursor-not-allowed"
-            >
-                Tarkista vastaus
-            </button>
-        </form>
-
+          <input
+            type="text"
+            id="answerInput"
+            inputmode="numeric"
+            pattern="\d*"
+            class="w-full p-4 text-2xl text-center border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition duration-200"
+            autocomplete="off"
+          />
+        </div>
+        <button
+          type="submit"
+          id="submitButton"
+          class="w-full py-3 px-6 text-lg font-semibold text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition duration-200 disabled:bg-gray-400 disabled:opacity-70 disabled:cursor-not-allowed"
+        >
+          Tarkista vastaus
+        </button>
+      </form>
     </div>
 
     <script>
-        // DOM element references
-        const problemDisplay = document.getElementById('problemDisplay');
-        const messageDisplay = document.getElementById('messageDisplay');
-        const answerInput = document.getElementById('answerInput');
-        const answerForm = document.getElementById('answerForm');
-        const submitButton = document.getElementById('submitButton');
-        const streakDisplay = document.getElementById('streakDisplay');
-        const recordDisplay = document.getElementById('recordDisplay');
+      // DOM element references
+      const problemDisplay = document.getElementById("problemDisplay");
+      const messageDisplay = document.getElementById("messageDisplay");
+      const answerInput = document.getElementById("answerInput");
+      const answerForm = document.getElementById("answerForm");
+      const submitButton = document.getElementById("submitButton");
+      const streakDisplay = document.getElementById("streakDisplay");
+      const recordDisplay = document.getElementById("recordDisplay");
 
-        // Global state variables
-        let currentX = 0;
-        let currentY = 0;
-        let streak = 0;
-        let recordStreak = 0;
-        let isShowingAnswer = false; // State for when we are showing the correct answer
+      // Global state variables
+      let currentX = 0;
+      let currentY = 0;
+      let streak = 0;
+      let recordStreak = 0;
+      let isShowingAnswer = false; // State for when we are showing the correct answer
 
-        // "Shuffle Bag" pools for factors
-        let xPool = [];
-        let yPool = [];
+      // "Shuffle Bag" pools for factors
+      let xPool = [];
+      let yPool = [];
 
-        // Positive feedback messages
-        const positiveFeedback = [
-            "Hienoa!",
-            "Oikein!",
-            "Mahtavaa työtä!",
-            "Jatka samaan malliin!",
-            "Täydellistä!"
-        ];
+      // Positive feedback messages
+      const positiveFeedback = [
+        "Hienoa!",
+        "Oikein!",
+        "Mahtavaa työtä!",
+        "Jatka samaan malliin!",
+        "Täydellistä!",
+      ];
 
-        // Storage key
-        const STORAGE_KEY = 'multiplicationGameRecord';
+      // Storage key
+      const STORAGE_KEY = "multiplicationGameRecord";
 
-        // --- HELPER FUNCTIONS ---
+      // --- HELPER FUNCTIONS ---
 
-        /**
-         * Fills and shuffles a number pool (1-10)
-         * @param {number[]} pool - Reference to either xPool or yPool
-         */
-        function refillPool(pool) {
-            pool.length = 0; // Clear the pool
-            // Fill with numbers 1-10
-            for (let i = 1; i <= 10; i++) {
-                pool.push(i);
-            }
-            // Shuffle the pool (Fisher-Yates)
-            shuffleArray(pool);
+      /**
+       * Fills and shuffles a number pool (1-10)
+       * @param {number[]} pool - Reference to either xPool or yPool
+       */
+      function refillPool(pool) {
+        pool.length = 0; // Clear the pool
+        // Fill with numbers 1-10
+        for (let i = 1; i <= 10; i++) {
+          pool.push(i);
+        }
+        // Shuffle the pool (Fisher-Yates)
+        shuffleArray(pool);
+      }
+
+      /**
+       * Shuffles an array in-place using Fisher-Yates.
+       * @param {number[]} array - The array to shuffle
+       */
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+      }
+
+      // --- MAIN APPLICATION LOGIC ---
+
+      /**
+       * Toggles the submit button state based on input.
+       */
+      function toggleButtonState() {
+        if (isShowingAnswer) {
+          // Button is always enabled when showing an answer
+          submitButton.disabled = false;
+        } else {
+          // State depends on the input field
+          submitButton.disabled = answerInput.value.trim() === "";
+        }
+      }
+
+      /**
+       * Generates and displays a new problem.
+       */
+      function generateProblem() {
+        // Reset streak ONLY if we are coming from a "wrong answer" state
+        if (isShowingAnswer) {
+          streak = 0;
+          streakDisplay.textContent = `Putki: ${streak}`;
         }
 
-        /**
-         * Shuffles an array in-place using Fisher-Yates.
-         * @param {number[]} array - The array to shuffle
-         */
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
+        // Reset "wrong answer" state
+        isShowingAnswer = false;
+
+        // Reset button appearance
+        submitButton.textContent = "Tarkista vastaus";
+        submitButton.classList.remove("bg-red-600", "hover:bg-red-700");
+        submitButton.classList.add("bg-blue-600", "hover:bg-blue-700");
+
+        // Reset input field
+        answerInput.value = "";
+        answerInput.disabled = false;
+
+        // Clear messages
+        messageDisplay.textContent = " ";
+        messageDisplay.classList.remove("text-green-600", "text-red-600");
+
+        // Refill pools if they are empty
+        if (xPool.length === 0) refillPool(xPool);
+        if (yPool.length === 0) refillPool(yPool);
+
+        // Get new factors from the pools
+        currentX = xPool.pop();
+        currentY = yPool.pop();
+
+        problemDisplay.textContent = `${currentX} x ${currentY}`;
+
+        // Update button state and focus the input
+        toggleButtonState();
+
+        try {
+          answerInput.focus();
+        } catch (e) {
+          // This can fail on some mobile browsers without direct user action
+          console.warn("Autofocus failed.", e);
         }
+      }
 
-        // --- MAIN APPLICATION LOGIC ---
+      /**
+       * Checks the user's answer.
+       */
+      function checkAnswer() {
+        const userAnswer = parseInt(answerInput.value, 10);
+        const correctAnswer = currentX * currentY;
 
-        /**
-         * Toggles the submit button state based on input.
-         */
-        function toggleButtonState() {
-            if (isShowingAnswer) {
-                // Button is always enabled when showing an answer
-                submitButton.disabled = false;
-            } else {
-                // State depends on the input field
-                submitButton.disabled = answerInput.value.trim() === '';
-            }
-        }
+        if (userAnswer === correctAnswer) {
+          // Correct answer
+          streak++;
 
-        /**
-         * Generates and displays a new problem.
-         */
-        function generateProblem() {
-            // Reset streak ONLY if we are coming from a "wrong answer" state
-            if (isShowingAnswer) {
-                streak = 0;
-                streakDisplay.textContent = `Putki: ${streak}`;
-            }
-
-            // Reset "wrong answer" state
-            isShowingAnswer = false;
-
-            // Reset button appearance
-            submitButton.textContent = 'Tarkista vastaus';
-            submitButton.classList.remove('bg-red-600', 'hover:bg-red-700');
-            submitButton.classList.add('bg-blue-600', 'hover:bg-blue-700');
-
-            // Reset input field
-            answerInput.value = '';
-            answerInput.disabled = false;
-            
-            // Clear messages
-            messageDisplay.textContent = ' ';
-            messageDisplay.classList.remove('text-green-600', 'text-red-600');
-
-            // Refill pools if they are empty
-            if (xPool.length === 0) refillPool(xPool);
-            if (yPool.length === 0) refillPool(yPool);
-
-            // Get new factors from the pools
-            currentX = xPool.pop();
-            currentY = yPool.pop();
-
-            problemDisplay.textContent = `${currentX} x ${currentY}`;
-            
-            // Update button state and focus the input
-            toggleButtonState();
-            
-            try {
-                answerInput.focus();
-            } catch (e) {
-                // This can fail on some mobile browsers without direct user action
-                console.warn("Autofocus failed.", e);
-            }
-        }
-
-        /**
-         * Checks the user's answer.
-         */
-        function checkAnswer() {
-            const userAnswer = parseInt(answerInput.value, 10);
-            const correctAnswer = currentX * currentY;
-
-            if (userAnswer === correctAnswer) {
-                // Correct answer
-                streak++;
-
-                // Check and update record streak
-                if (streak > recordStreak) {
-                    recordStreak = streak;
-                    recordDisplay.textContent = `Ennätys: ${recordStreak}`;
-                    localStorage.setItem(STORAGE_KEY, recordStreak.toString());
-                }
-
-                messageDisplay.textContent = positiveFeedback[Math.floor(Math.random() * positiveFeedback.length)];
-                messageDisplay.classList.add('text-green-600');
-                messageDisplay.classList.remove('text-red-600');
-
-                // Celebration animation every 5 correct answers
-                if (streak > 0 && streak % 5 === 0) {
-                    streakDisplay.classList.add('animate-tada');
-                    // Remove class after animation to allow re-triggering
-                    streakDisplay.addEventListener('animationend', () => {
-                        streakDisplay.classList.remove('animate-tada');
-                    }, { once: true });
-                }
-
-                // Generate new problem after a short delay
-                setTimeout(generateProblem, 1000);
-
-            } else {
-                // Incorrect answer
-                // streak = 0; // <-- REMOVED from here
-                messageDisplay.textContent = `Väärin. Oikea vastaus: ${correctAnswer}`;
-                messageDisplay.classList.add('text-red-600');
-                messageDisplay.classList.remove('text-green-600');
-
-                // Set "showing answer" state
-                isShowingAnswer = true;
-                answerInput.disabled = true; // Lock the input
-                
-                // Change button text and color to "Start Over"
-                submitButton.textContent = 'Aloita alusta';
-                submitButton.classList.remove('bg-blue-600', 'hover:bg-blue-700');
-                submitButton.classList.add('bg-red-600', 'hover:bg-red-700');
-            }
-
-            // Update streak display and button state
-            streakDisplay.textContent = `Putki: ${streak}`;
-            toggleButtonState();
-        }
-
-        // --- EVENT LISTENERS ---
-
-        /**
-         * Form submission (Enter or click)
-         */
-        answerForm.addEventListener('submit', (e) => {
-            e.preventDefault(); // Prevent page reload
-
-            if (isShowingAnswer) {
-                // If showing answer, button acts as "Start Over"
-                generateProblem();
-            } else {
-                // Otherwise, check the answer
-                checkAnswer();
-            }
-        });
-
-        /**
-         * Input field listener (to enable/disable button)
-         */
-        answerInput.addEventListener('input', toggleButtonState);
-
-        // --- INITIALIZATION ---
-        
-        // Load record from localStorage
-        const savedRecord = localStorage.getItem(STORAGE_KEY);
-        if (savedRecord) {
-            recordStreak = parseInt(savedRecord, 10);
+          // Check and update record streak
+          if (streak > recordStreak) {
+            recordStreak = streak;
             recordDisplay.textContent = `Ennätys: ${recordStreak}`;
+            localStorage.setItem(STORAGE_KEY, recordStreak.toString());
+          }
+
+          messageDisplay.textContent =
+            positiveFeedback[
+              Math.floor(Math.random() * positiveFeedback.length)
+            ];
+          messageDisplay.classList.add("text-green-600");
+          messageDisplay.classList.remove("text-red-600");
+
+          // Celebration animation every 5 correct answers
+          if (streak > 0 && streak % 5 === 0) {
+            streakDisplay.classList.add("animate-tada");
+            // Remove class after animation to allow re-triggering
+            streakDisplay.addEventListener(
+              "animationend",
+              () => {
+                streakDisplay.classList.remove("animate-tada");
+              },
+              { once: true }
+            );
+          }
+
+          // Generate new problem after a short delay
+          setTimeout(generateProblem, 1000);
+        } else {
+          // Incorrect answer
+          // streak = 0; // <-- REMOVED from here
+          messageDisplay.textContent = `Väärin. Oikea vastaus: ${correctAnswer}`;
+          messageDisplay.classList.add("text-red-600");
+          messageDisplay.classList.remove("text-green-600");
+
+          // Set "showing answer" state
+          isShowingAnswer = true;
+          answerInput.disabled = true; // Lock the input
+
+          // Change button text and color to "Start Over"
+          submitButton.textContent = "Aloita alusta";
+          submitButton.classList.remove("bg-blue-600", "hover:bg-blue-700");
+          submitButton.classList.add("bg-red-600", "hover:bg-red-700");
         }
 
-        // Initial fill of the pools
-        refillPool(xPool);
-        refillPool(yPool);
-        
-        // Generate the first problem on page load
-        generateProblem();
+        // Update streak display and button state
+        streakDisplay.textContent = `Putki: ${streak}`;
+        toggleButtonState();
+      }
+
+      // --- EVENT LISTENERS ---
+
+      /**
+       * Form submission (Enter or click)
+       */
+      answerForm.addEventListener("submit", (e) => {
+        e.preventDefault(); // Prevent page reload
+
+        if (isShowingAnswer) {
+          // If showing answer, button acts as "Start Over"
+          generateProblem();
+        } else {
+          // Otherwise, check the answer
+          checkAnswer();
+        }
+      });
+
+      /**
+       * Input field listener (to enable/disable button)
+       */
+      answerInput.addEventListener("input", toggleButtonState);
+
+      // --- INITIALIZATION ---
+
+      // Load record from localStorage
+      const savedRecord = localStorage.getItem(STORAGE_KEY);
+      if (savedRecord) {
+        recordStreak = parseInt(savedRecord, 10);
+        recordDisplay.textContent = `Ennätys: ${recordStreak}`;
+      }
+
+      // Initial fill of the pools
+      refillPool(xPool);
+      refillPool(yPool);
+
+      // Generate the first problem on page load
+      generateProblem();
     </script>
-</body>
+  </body>
 </html>
