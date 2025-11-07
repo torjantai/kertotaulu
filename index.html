@@ -38,6 +38,7 @@
         
         <div class="text-center mb-6">
             <p id="streakDisplay" class="text-lg text-blue-600 font-medium">Putki: 0</p>
+            <p id="recordDisplay" class="text-sm text-gray-500 font-medium mt-1">Ennätys: 0</p>
         </div>
 
         <div class="mb-6">
@@ -84,11 +85,13 @@
         const answerForm = document.getElementById('answerForm');
         const submitButton = document.getElementById('submitButton');
         const streakDisplay = document.getElementById('streakDisplay');
+        const recordDisplay = document.getElementById('recordDisplay');
 
         // Global state variables
         let currentX = 0;
         let currentY = 0;
         let streak = 0;
+        let recordStreak = 0;
         let isShowingAnswer = false; // State for when we are showing the correct answer
 
         // "Shuffle Bag" pools for factors
@@ -103,6 +106,9 @@
             "Jatka samaan malliin!",
             "Täydellistä!"
         ];
+
+        // Storage key
+        const STORAGE_KEY = 'multiplicationGameRecord';
 
         // --- HELPER FUNCTIONS ---
 
@@ -203,6 +209,14 @@
             if (userAnswer === correctAnswer) {
                 // Correct answer
                 streak++;
+
+                // Check and update record streak
+                if (streak > recordStreak) {
+                    recordStreak = streak;
+                    recordDisplay.textContent = `Ennätys: ${recordStreak}`;
+                    localStorage.setItem(STORAGE_KEY, recordStreak.toString());
+                }
+
                 messageDisplay.textContent = positiveFeedback[Math.floor(Math.random() * positiveFeedback.length)];
                 messageDisplay.classList.add('text-green-600');
                 messageDisplay.classList.remove('text-red-600');
@@ -265,6 +279,13 @@
 
         // --- INITIALIZATION ---
         
+        // Load record from localStorage
+        const savedRecord = localStorage.getItem(STORAGE_KEY);
+        if (savedRecord) {
+            recordStreak = parseInt(savedRecord, 10);
+            recordDisplay.textContent = `Ennätys: ${recordStreak}`;
+        }
+
         // Initial fill of the pools
         refillPool(xPool);
         refillPool(yPool);
