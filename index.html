@@ -68,10 +68,18 @@
         >
           5 x 10
         </p>
-        <p id="messageDisplay" class="text-lg text-center font-medium mt-3 h-8">
-          &nbsp;
-          <!-- Placeholder to maintain height -->
-        </p>
+        <div class="h-8 mt-3">
+          <p
+            id="successMessage"
+            class="text-lg text-center font-medium text-green-600"
+            style="display: none"
+          ></p>
+          <p
+            id="errorMessage"
+            class="text-lg text-center font-medium text-red-600"
+            style="display: none"
+          ></p>
+        </div>
       </div>
 
       <form id="answerForm" class="space-y-4">
@@ -103,7 +111,8 @@
     <script>
       // DOM element references
       const problemDisplay = document.getElementById("problemDisplay");
-      const messageDisplay = document.getElementById("messageDisplay");
+      const successMessage = document.getElementById("successMessage");
+      const errorMessage = document.getElementById("errorMessage");
       const answerInput = document.getElementById("answerInput");
       const answerForm = document.getElementById("answerForm");
       const submitButton = document.getElementById("submitButton");
@@ -197,9 +206,11 @@
         answerInput.value = "";
         answerInput.disabled = false;
 
-        // Clear messages
-        messageDisplay.textContent = " ";
-        messageDisplay.classList.remove("text-green-600", "text-red-600");
+        // Clear and hide messages
+        successMessage.textContent = "";
+        successMessage.style.display = "none";
+        errorMessage.textContent = "";
+        errorMessage.style.display = "none";
 
         // Refill pools if they are empty
         if (xPool.length === 0) refillPool(xPool);
@@ -240,12 +251,17 @@
             localStorage.setItem(STORAGE_KEY, recordStreak.toString());
           }
 
-          messageDisplay.textContent =
+          successMessage.textContent =
             positiveFeedback[
               Math.floor(Math.random() * positiveFeedback.length)
             ];
-          messageDisplay.classList.add("text-green-600");
-          messageDisplay.classList.remove("text-red-600");
+          successMessage.style.display = "block";
+
+          // Clear success message after 1 second
+          setTimeout(() => {
+            successMessage.textContent = "";
+            successMessage.style.display = "none";
+          }, 1000);
 
           // Celebration animation every 5 correct answers
           if (streak > 0 && streak % 5 === 0) {
@@ -265,9 +281,8 @@
         } else {
           // Incorrect answer
           // streak = 0; // <-- REMOVED from here
-          messageDisplay.textContent = `Väärin. Oikea vastaus: ${correctAnswer}`;
-          messageDisplay.classList.add("text-red-600");
-          messageDisplay.classList.remove("text-green-600");
+          errorMessage.textContent = `Väärin. Oikea vastaus: ${correctAnswer}`;
+          errorMessage.style.display = "block";
 
           // Set "showing answer" state
           isShowingAnswer = true;
